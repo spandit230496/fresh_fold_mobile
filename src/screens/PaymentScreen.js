@@ -1,0 +1,21 @@
+import { useState } from "react";
+import { View, StyleSheet, Pressable } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { ArrowLeft, CheckCircle2, CreditCard, Smartphone, WalletCards } from "lucide-react-native";
+import Screen from "../components/shared/Screen";
+import Text from "../components/shared/Text";
+import Button from "../components/shared/Button";
+import { colors, radius } from "../theme/theme";
+
+const methods=[{id:"upi",label:"UPI",desc:"Google Pay, PhonePe, Paytm",icon:Smartphone},{id:"card",label:"Card",desc:"Credit or debit card",icon:CreditCard},{id:"wallet",label:"Wallet",desc:"Pay from your saved wallet",icon:WalletCards}];
+export default function PaymentScreen(){
+ const insets=useSafeAreaInsets(), navigation=useNavigation(), route=useRoute(); const [method,setMethod]=useState("upi"); const [paid,setPaid]=useState(false); const bookingId=route.params?.bookingId||`FF-${Math.floor(100000+Math.random()*900000)}`;
+ if(paid) return <Screen contentStyle={{paddingTop:insets.top+40,paddingHorizontal:22}}><View style={styles.success}><View style={styles.successIcon}><CheckCircle2 size={44} color={colors.limeDark}/></View><Text weight="extrabold" style={{fontSize:28,marginTop:20}}>Payment Successful</Text><Text color={colors.navyMuted} style={{textAlign:"center",marginTop:8,lineHeight:21}}>Your pickup is scheduled and payment has been recorded.</Text><View style={styles.receipt}><Text color={colors.navyMuted} style={{fontSize:11,textTransform:"uppercase"}}>Booking ID</Text><Text weight="extrabold" style={{fontSize:20,marginTop:4}}>{bookingId}</Text></View><Button fullWidth onPress={()=>navigation.navigate("Tabs", { screen: "Track" })}>Track Order</Button><Button fullWidth variant="outline" style={{marginTop:10}} onPress={()=>navigation.navigate("Tabs",{screen:"Home"})}>Back to Home</Button></View></Screen>;
+ return <Screen contentStyle={{paddingTop:insets.top+18,paddingHorizontal:20}}><Pressable onPress={()=>navigation.goBack()} style={styles.back}><ArrowLeft size={20} color={colors.navy}/></Pressable><Text weight="extrabold" style={{fontSize:26,marginTop:20}}>Payment</Text><Text color={colors.navyMuted} style={{fontSize:14,marginTop:5}}>Choose how you'd like to pay for your pickup.</Text>
+ <View style={styles.amount}><Text color={colors.navyMuted}>Estimated total</Text><Text weight="extrabold" style={{fontSize:28}}>₹499</Text><Text color={colors.navyMuted} style={{fontSize:11}}>Final amount may change after garment inspection.</Text></View>
+ <Text weight="extrabold" style={{fontSize:17,marginBottom:12}}>Payment method</Text><View style={{gap:10}}>{methods.map(m=>{const Icon=m.icon;const active=method===m.id;return <Pressable key={m.id} onPress={()=>setMethod(m.id)} style={[styles.method,active&&styles.active]}><View style={styles.methodIcon}><Icon size={19} color={colors.navy}/></View><View style={{flex:1}}><Text weight="bold">{m.label}</Text><Text color={colors.navyMuted} style={{fontSize:12,marginTop:2}}>{m.desc}</Text></View><View style={[styles.radio,active&&styles.radioActive]} /></Pressable>})}</View>
+ <View style={{marginTop:24}}><Button fullWidth size="lg" onPress={()=>setPaid(true)}>Pay ₹499</Button></View></Screen>
+}
+const styles=StyleSheet.create({back:{width:42,height:42,borderRadius:21,backgroundColor:colors.lightGray,alignItems:"center",justifyContent:"center"},amount:{backgroundColor:colors.navy,borderRadius:24,padding:20,marginVertical:24},amountText:{},method:{flexDirection:"row",alignItems:"center",padding:15,borderWidth:2,borderColor:colors.navyFaint,borderRadius:18},active:{borderColor:colors.lime,backgroundColor:colors.lightGreen},methodIcon:{width:40,height:40,borderRadius:13,backgroundColor:colors.white,alignItems:"center",justifyContent:"center",marginRight:12},radio:{width:20,height:20,borderRadius:10,borderWidth:2,borderColor:"rgba(16,35,63,0.2)"},radioActive:{borderWidth:6,borderColor:colors.navy},success:{alignItems:"center"},successIcon:{width:88,height:88,borderRadius:44,backgroundColor:colors.lightGreen,alignItems:"center",justifyContent:"center"},receipt:{alignSelf:"stretch",backgroundColor:colors.lightGray,borderRadius:18,padding:17,alignItems:"center",marginVertical:24}}
+);
