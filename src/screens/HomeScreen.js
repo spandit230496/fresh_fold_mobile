@@ -1,7 +1,7 @@
 import { View, StyleSheet, ScrollView, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { Check, ArrowRight, Truck, ShieldCheck } from "lucide-react-native";
+import { Check, ArrowRight, Truck, ShieldCheck, Bell, User, Sparkles } from "lucide-react-native";
 import Screen from "../components/shared/Screen";
 import Text from "../components/shared/Text";
 import Badge from "../components/shared/Badge";
@@ -32,8 +32,42 @@ export default function HomeScreen() {
 
   return (
     <Screen style={{ backgroundColor: colors.lightGray }}>
+      {/* Top Header Bar */}
       <View style={[styles.topBar, { paddingTop: insets.top + 12 }]}>
         <Logo />
+        <View style={styles.headerActions}>
+          <Pressable
+            onPress={() => navigation.navigate("Notifications")}
+            style={styles.headerIconBtn}
+          >
+            <Bell size={20} color={colors.navy} />
+            <View style={styles.unreadDot} />
+          </Pressable>
+
+          <Pressable
+            onPress={() => navigation.navigate("Profile")}
+            style={styles.avatarBtn}
+          >
+            <Text weight="extrabold" color={colors.navy} style={{ fontSize: 13 }}>AS</Text>
+          </Pressable>
+        </View>
+      </View>
+
+      {/* Active Order Quick Tracker Card */}
+      <View style={{ paddingHorizontal: 20, paddingTop: 4 }}>
+        <Pressable
+          onPress={() => navigation.navigate("OrderDetail", { orderId: "FF-482910" })}
+          style={styles.activeOrderBanner}
+        >
+          <View style={styles.activeOrderIconWrap}>
+            <Truck size={16} color={colors.navy} />
+          </View>
+          <View style={{ flex: 1, marginLeft: 10 }}>
+            <Text weight="bold" style={{ fontSize: 12.5 }}>Order #FF-482910 is Processing</Text>
+            <Text color={colors.navyMuted} style={{ fontSize: 11 }}>Expected Delivery: 22 Aug, 8:00 PM</Text>
+          </View>
+          <Text weight="extrabold" color={colors.limeDark} style={{ fontSize: 12 }}>Track →</Text>
+        </Pressable>
       </View>
 
       {/* Hero */}
@@ -152,7 +186,64 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  topBar: { paddingHorizontal: 20, paddingBottom: 8 },
+  topBar: {
+    paddingHorizontal: 20,
+    paddingBottom: 8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  headerActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  headerIconBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: colors.white,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
+  unreadDot: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.limeDark,
+    borderWidth: 1.5,
+    borderColor: colors.white,
+  },
+  avatarBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: colors.lime,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  activeOrderBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: colors.navyFaint,
+    marginTop: 4,
+  },
+  activeOrderIconWrap: {
+    width: 32,
+    height: 32,
+    borderRadius: 10,
+    backgroundColor: colors.lightGreen,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   hero: { paddingHorizontal: 20, paddingTop: 8, paddingBottom: 8 },
   h1: { fontSize: 34, lineHeight: 40, marginTop: 16 },
   heroDesc: { fontSize: 15, lineHeight: 22, marginTop: 14 },

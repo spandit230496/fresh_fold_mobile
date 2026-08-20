@@ -1,0 +1,45 @@
+export const notifications = [
+  {
+    id: "n1",
+    type: "order", // order | promo | reminder | account
+    title: "Order #FF-482910 is Processing",
+    body: "Your clothes have arrived at Baner Central Hub and undergo custom fabric inspection.",
+    time: "10 mins ago",
+    read: false,
+    orderId: "FF-482910",
+  },
+  {
+    id: "n2",
+    type: "promo",
+    title: "Weekend Special: Flat 25% OFF! 🎉",
+    body: "Use code WEEKEND25 on all dry clean orders above ₹599. Valid till Sunday midnight.",
+    time: "2 hours ago",
+    read: false,
+    code: "WEEKEND25",
+  },
+  {
+    id: "n3",
+    type: "order",
+    title: "Driver Assigned for Pickup",
+    body: "Ramesh (+91 98234 56789) is on the way to collect your laundry garments.",
+    time: "5 hours ago",
+    read: true,
+    orderId: "FF-482910",
+  },
+  {
+    id: "n4",
+    type: "reminder",
+    title: "Scheduled Pickup Tomorrow",
+    body: "Reminder: Scheduled pickup for tomorrow at 11:00 AM. Keep your laundry bags ready!",
+    time: "1 day ago",
+    read: true,
+  },
+  {
+    id: "n5",
+    type: "account",
+    title: "₹150 FreshFold Cash Credited",
+    body: "Your friend Rahul signed up using your referral link! ₹150 has been added to your wallet.",
+    time: "3 days ago",
+    read: true,
+  },
+];
